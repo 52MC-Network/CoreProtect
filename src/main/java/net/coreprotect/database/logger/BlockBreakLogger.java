@@ -32,6 +32,9 @@ public class BlockBreakLogger {
             if (blockKey.length() == 0 && checkType != null) {
                 blockKey = checkType.getKey().toString();
             }
+            else if (checkType != null && (checkType == Material.PAINTING || BukkitAdapter.ADAPTER.isItemFrame(checkType) || checkType == Material.ARMOR_STAND || checkType == Material.END_CRYSTAL)) {
+                blockKey = checkType.getKey().toString();
+            }
 
             if (checkType == null && blockKey.length() == 0) {
                 return;
@@ -56,7 +59,7 @@ public class BlockBreakLogger {
                 blockData = overrideData;
             }
 
-            CoreProtectPreLogEvent event = new CoreProtectPreLogEvent(user, location);
+            CoreProtectPreLogEvent event = new CoreProtectPreLogEvent(user, location, CoreProtectPreLogEvent.Action.BLOCK_BREAK, 0, checkType, null, null);
             if (Config.getGlobal().API_ENABLED && !Bukkit.isPrimaryThread()) {
                 CoreProtect.getInstance().getServer().getPluginManager().callEvent(event);
             }

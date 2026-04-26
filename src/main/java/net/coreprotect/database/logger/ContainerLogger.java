@@ -53,6 +53,9 @@ public class ContainerLogger extends Queue {
             else if (type == Material.JUKEBOX || type == Material.ARMOR_STAND) {
                 contents = (ItemStack[]) ((Object[]) container)[1];
             }
+            else if (container instanceof ItemStack[]) {
+                contents = (ItemStack[]) container;
+            }
             else {
                 Inventory inventory = (Inventory) container;
                 if (inventory != null) {
@@ -246,7 +249,7 @@ public class ContainerLogger extends Queue {
                             metadata = null;
                         }
 
-                        CoreProtectPreLogEvent event = new CoreProtectPreLogEvent(user, location);
+                        CoreProtectPreLogEvent event = new CoreProtectPreLogEvent(user, location, CoreProtectPreLogEvent.Action.CONTAINER_TRANSACTION, action, item.getType(), null, null);
                         if (Config.getGlobal().API_ENABLED && !Bukkit.isPrimaryThread()) {
                             CoreProtect.getInstance().getServer().getPluginManager().callEvent(event);
                         }

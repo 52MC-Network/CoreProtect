@@ -57,6 +57,9 @@ public class BlockPlaceLogger {
                 }
                 blockKey = type.getKey().toString();
             }
+            else if (type != null && (type == Material.PAINTING || BukkitAdapter.ADAPTER.isItemFrame(type))) {
+                blockKey = type.getKey().toString();
+            }
 
             if (type != null && (type.equals(Material.AIR) || type.equals(Material.CAVE_AIR)) && BlockTypeUtils.isAir(blockKey)) {
                 return;
@@ -90,7 +93,7 @@ public class BlockPlaceLogger {
                 }
             }
 
-            CoreProtectPreLogEvent event = new CoreProtectPreLogEvent(user, block.getLocation());
+            CoreProtectPreLogEvent event = new CoreProtectPreLogEvent(user, block.getLocation(), CoreProtectPreLogEvent.Action.BLOCK_PLACE, 1, type, null, null);
             if (Config.getGlobal().API_ENABLED && !Bukkit.isPrimaryThread()) {
                 CoreProtect.getInstance().getServer().getPluginManager().callEvent(event);
             }
